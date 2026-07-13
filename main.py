@@ -1,6 +1,71 @@
 import telebot
 import threading
 import time
+import urllib.parse
+from telebot.types import ReplyKeyboardMarkup, KeyboardButton
+
+TOKEN = '8874054278:AAHMloWJG77wlwjLymwqSmzMNeUp7U0Mtvo'
+bot = telebot.TeleBot(TOKEN)
+SAHIP_ID = None 
+
+def joker_kumanda_paneli():
+    markup = ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
+    markup.add(
+        KeyboardButton("📐 Joker Emlak (İBB/Ege)"),
+        KeyboardButton("🛒 Joker İmalat (Ev Hanımları)"),
+        KeyboardButton("📱 Joker Medya (TikTok/YouTube)"),
+        KeyboardButton("🔬 Joker AR-GE & Siber Zeka")
+    )
+    return markup
+
+@bot.message_handler(commands=['start'])
+def start_komutu(message):
+    global SAHIP_ID
+    if SAHIP_ID is None:
+        SAHIP_ID = message.from_user.id
+        
+    if message.from_user.id == SAHIP_ID:
+        rapor = (
+            "🃏 *AJAN JOKER AI GÜNCELLENDİ!*\n\n"
+            "Efendim, mimar ve mühendis ajanlara *GÖRSEL ÜRETİM YETENEĞİ* kazandırıldı.\n"
+            "Artık tasarlanan ürünlerin ve arsaların fotoğraflarını da görebileceksiniz."
+        )
+        bot.send_message(SAHIP_ID, rapor, parse_mode='Markdown', reply_markup=joker_kumanda_paneli())
+
+@bot.message_handler(func=lambda message: True)
+def buton_tetikleyicileri(message):
+    if message.from_user.id != SAHIP_ID: return
+        
+    if message.text == "📐 Joker Emlak (İBB/Ege)":
+        bot.send_message(SAHIP_ID, "🔍 *Joker Emlak Raporu:* Riva ve Bodrum boş arazi katmanları süzüldü. Mimar ajanlar bölge için lüks villa projesi vizyon görselini çiziyor...", parse_mode='Markdown')
+        
+        # Ücretsiz Yapay Zeka Görsel Üretim Motoru Tetikleniyor (Emlak için)
+        prompt = "ultra luxury modern villa project in İstanbul Riva, professional architecture photography, photorealistic, 8k"
+        encoded_prompt = urllib.parse.quote(prompt)
+        photo_url = f"https://pollinations.ai{encoded_prompt}?width=1024&height=768&seed=42"
+        
+        bot.send_photo(SAHIP_ID, photo_url, caption="📐 Mimar Ajanın Riva İçin Çizdiği Örnek Proje Vizyon Görseli")
+
+    elif message.text == "🛒 Joker İmalat (Ev Hanımları)":
+        bot.send_message(SAHIP_ID, "💡 *Joker İmalat Fikri:* Ev hanımları için imalatı 10 TL olan pratik mutfak düzenleyici aparatı tasarımı tamamlandı. Görsel hazırlanıyor...", parse_mode='Markdown')
+        
+        # Ücretsiz Yapay Zeka Görsel Üretim Motoru Tetikleniyor (Ürün tasarımı için)
+        prompt = "innovative smart kitchen organizer product, minimalist design, home product photography, clean white background, high quality"
+        encoded_prompt = urllib.parse.quote(prompt)
+        photo_url = f"https://pollinations.ai{encoded_prompt}?width=1024&height=1024&seed=15"
+        
+        bot.send_photo(SAHIP_ID, photo_url, caption="🛒 Mimar Ajanın Tasarladığı Mutfak Düzenleyici Aparat Görseli")
+        
+    elif message.text == "📱 Joker Medya (TikTok/YouTube)":
+        bot.send_message(SAHIP_ID, "🎬 *Joker Medya Durumu:* Üretilen e-ticaret fikri için algoritmayı ele geçirecek 15 saniyelik otomatik video senaryosu ve dikkat çekici kapak görseli hazırlandı.", parse_mode='Markdown')
+    elif message.text == "🔬 Joker AR-GE & Siber Zeka":
+        bot.send_message(SAHIP_ID, "⚡ *Joker AR-GE:* Alt ajanların rütbe gelişimleri stabil. Görsel motoru entegrasyonu başarılı.", parse_mode='Markdown')
+
+if __name__ == "__main__":
+    bot.polling(none_stop=True)
+    import telebot
+import threading
+import time
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
 # SİZDEN GELEN GİZLI TOKEN VE KONTROL ANAHTARI
